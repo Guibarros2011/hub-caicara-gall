@@ -29,18 +29,18 @@
   --teal:   #00c896;
   --amber:  #f0a020;
   --red:    #e84040;
-
+ 
   --glass:  rgba(255,255,255,.04);
   --glass2: rgba(255,255,255,.07);
   --bdr:    rgba(20,160,220,.15);
   --bdrh:   rgba(20,160,220,.38);
-
+ 
   --r:  8px;
   --rl: 16px;
   --fh: 'Outfit', sans-serif;
   --fm: 'JetBrains Mono', monospace;
 }
-
+ 
 /* ─── RESET ─── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -52,7 +52,7 @@ body {
   line-height: 1.65;
   overflow-x: hidden;
 }
-
+ 
 /* ─── AMBIENT LAYERS ─── */
 body::before {
   content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -69,7 +69,7 @@ body::after {
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
 }
-
+ 
 /* ─── NAV ─── */
 nav {
   position: fixed; top:0; left:0; right:0; z-index:1000;
@@ -91,7 +91,7 @@ nav {
 .npill { display:flex; align-items:center; gap:6px; background:rgba(20,160,220,.1); border:1px solid rgba(20,160,220,.22); border-radius:20px; padding:5px 13px; font-size:11.5px; font-weight:600; color:var(--elec2); white-space:nowrap; }
 .dot { width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 2s ease infinite; }
 @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(1.7)} }
-
+ 
 /* ─── HERO ─── */
 .hero {
   min-height: 100vh;
@@ -103,7 +103,7 @@ nav {
 .hero-orb1 { position:absolute; top:-120px; right:-80px; width:650px; height:650px; border-radius:50%; background:radial-gradient(circle, rgba(20,160,220,.12), transparent 65%); filter:blur(60px); pointer-events:none; z-index:1; }
 .hero-orb2 { position:absolute; bottom:-150px; left:-100px; width:550px; height:550px; border-radius:50%; background:radial-gradient(circle, rgba(0,200,150,.08), transparent 65%); filter:blur(70px); pointer-events:none; z-index:1; }
 .hi { max-width:1080px; margin:0 auto; width:100%; position:relative; z-index:2; }
-
+ 
 .hero-eyebrow {
   display:inline-flex; align-items:center; gap:8px;
   background:rgba(20,160,220,.1); border:1px solid rgba(20,160,220,.25);
@@ -111,7 +111,7 @@ nav {
   padding:5px 14px; border-radius:20px; margin-bottom:1.8rem;
   animation: fadeUp .6s ease both;
 }
-
+ 
 .hero-brand {
   display:flex; align-items:center; gap:22px; margin-bottom:2rem;
   animation: fadeUp .6s .06s ease both;
@@ -121,13 +121,13 @@ nav {
 .hero-brand h1 { font-size:clamp(2.6rem,4.8vw,4rem); font-weight:900; line-height:.92; letter-spacing:-.035em; color:var(--pure); }
 .hero-brand h1 em { font-style:normal; color:var(--elec); }
 .hero-brand p  { font-size:.9rem; color:rgba(240,240,240,.45); margin-top:.55rem; font-weight:400; }
-
+ 
 .hero-sub { font-size:1.05rem; color:rgba(240,240,240,.52); max-width:500px; line-height:1.82; margin-bottom:2.5rem; animation:fadeUp .6s .12s ease both; }
-
+ 
 .hero-tags { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:3rem; animation:fadeUp .6s .18s ease both; }
 .htag { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:7px; padding:6px 12px; color:rgba(240,240,240,.72); font-size:12.5px; font-weight:500; }
 .htag-dot { width:6px; height:6px; border-radius:50%; }
-
+ 
 .hero-kpis {
   display:grid; grid-template-columns:repeat(4,1fr);
   gap:1px; background:rgba(20,160,220,.12);
@@ -142,9 +142,9 @@ nav {
 .kv.c3 { color:var(--amber); }
 .kv.c4 { color:var(--pure); }
 .kl { font-size:11.5px; color:rgba(240,240,240,.36); line-height:1.4; }
-
+ 
 @keyframes fadeUp { from { opacity:0; transform:translateY(24px) } to { opacity:1; transform:translateY(0) } }
-
+ 
 /* ─── SECTIONS ─── */
 section { scroll-margin-top:58px; position:relative; z-index:2; }
 .si { max-width:1080px; margin:0 auto; padding:5rem 2rem; }
@@ -153,7 +153,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .sec-sub { color:rgba(240,240,240,.48); font-size:.97rem; max-width:500px; line-height:1.8; margin-bottom:2.5rem; }
 .sec-lt  { background:rgba(255,255,255,.02); border-top:1px solid var(--bdr); border-bottom:1px solid var(--bdr); }
 .sec-dk  { background:rgba(0,8,18,.45); }
-
+ 
 /* ─── ETAPAS ─── */
 .egrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
 .ecard {
@@ -186,7 +186,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .erev  { margin-top:.9rem; padding-top:.9rem; border-top:1px solid rgba(255,255,255,.06); display:flex; gap:1.5rem; }
 .rvv   { font-family:var(--fm); font-size:1.1rem; font-weight:500; color:var(--pure); line-height:1; }
 .rvl   { font-size:10.5px; color:rgba(240,240,240,.32); margin-top:2px; }
-
+ 
 /* ─── FOTOS ─── */
 .fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:.85rem; }
 .fslot {
@@ -207,7 +207,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .fadd { border-radius:var(--r); border:1px dashed rgba(20,160,220,.2); background:transparent; aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; cursor:pointer; transition:all .2s; color:rgba(240,240,240,.3); font-size:12.5px; font-family:var(--fh); }
 .fadd:hover { border-color:var(--bdrh); color:var(--elec2); background:var(--glass); }
 .fadd svg { width:24px; height:24px; }
-
+ 
 /* ─── CONTRATO ─── */
 .clayout { display:grid; grid-template-columns:1fr 310px; gap:2rem; align-items:start; }
 .cview { border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; background:var(--glass); }
@@ -237,7 +237,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .bwarn { background:rgba(240,160,32,.12); color:var(--amber); }
 .bok   { background:rgba(0,200,150,.12); color:var(--teal); }
 .binfo { background:rgba(20,160,220,.12); color:var(--elec2); }
-
+ 
 /* ─── AVALIAÇÕES ─── */
 .avgrid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
 .avc { border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; background:var(--glass); }
@@ -285,7 +285,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .rpos  { font-size:11.5px; font-weight:600; color:rgba(240,240,240,.45); margin-bottom:.3rem; }
 .rtxt  { font-size:13px; color:rgba(240,240,240,.65); line-height:1.65; }
 .rnm   { font-size:11px; color:rgba(240,240,240,.28); margin-top:.3rem; }
-
+ 
 /* ─── DOCUMENTOS ─── */
 .ddrop { border:1px dashed rgba(20,160,220,.28); border-radius:var(--rl); padding:2.25rem; text-align:center; background:var(--glass); transition:all .2s; cursor:pointer; margin-bottom:1.25rem; }
 .ddrop:hover, .ddrop.drag { border-color:var(--bdrh); background:var(--glass2); }
@@ -312,7 +312,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .ddel { width:26px; height:26px; border-radius:6px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(240,240,240,.28); transition:all .15s; }
 .ddel:hover { background:rgba(232,64,64,.15); color:var(--red); }
 .ddel svg { width:13px; height:13px; }
-
+ 
 /* ─── BENCHMARKS ─── */
 .bmgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2rem; }
 .bmc { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; transition:transform .25s, border-color .25s; }
@@ -340,7 +340,7 @@ section { scroll-margin-top:58px; position:relative; z-index:2; }
 .bmbul:last-child { margin-bottom:0; }
 .bmbd2 { width:5px; height:5px; border-radius:50%; margin-top:6px; flex-shrink:0; }
 .bmbul p { font-size:13px; color:rgba(240,240,240,.62); line-height:1.62; }
-
+ 
 /* ─── TABLE ─── */
 .tw { overflow-x:auto; margin-bottom:1.25rem; }
 table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -351,7 +351,7 @@ tr:last-child td { border-bottom:none; font-weight:600; color:var(--pure); }
 .tel { color:var(--elec2)!important; }
 .tam { color:var(--amber)!important; }
 tr.thl td { background:rgba(20,160,220,.05); color:var(--pure); }
-
+ 
 /* ─── FINANCEIRO ─── */
 .fkpis { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(20,160,220,.1); border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; margin-bottom:2rem; }
 .fk { background:rgba(0,8,18,.55); padding:1.3rem; transition:background .2s; }
@@ -362,19 +362,19 @@ tr.thl td { background:rgba(20,160,220,.05); color:var(--pure); }
 .fkv.t { color:var(--teal); }
 .fkv.a { color:var(--amber); }
 .fks { font-size:11px; color:rgba(240,240,240,.25); margin-top:3px; }
-
+ 
 /* ─── FOOTER ─── */
 footer { background:rgba(0,6,14,.85); border-top:1px solid var(--bdr); padding:2rem; text-align:center; color:rgba(240,240,240,.22); font-size:12px; position:relative; z-index:2; }
 footer strong { color:rgba(240,240,240,.48); }
 .ftr-logo { width:36px; height:36px; border-radius:8px; overflow:hidden; border:1px solid var(--bdr); margin:0 auto 1rem; }
 .ftr-logo img { width:100%; height:100%; object-fit:cover; }
-
+ 
 /* ─── TOAST ─── */
 .toast { position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(0,18,38,.97); backdrop-filter:blur(14px); border:1px solid var(--bdrh); color:var(--pure); padding:11px 16px; border-radius:10px; font-size:13.5px; box-shadow:0 8px 32px rgba(20,160,220,.22); transform:translateY(80px); opacity:0; transition:all .3s; display:flex; align-items:center; gap:8px; }
 .toast.on { transform:translateY(0); opacity:1; }
 .tdot { width:6px; height:6px; border-radius:50%; background:var(--teal); }
 .hidden { display:none; }
-
+ 
 /* ─── RESPONSIVE ─── */
 @media (max-width:900px) {
   .hero-kpis, .fkpis { grid-template-columns:repeat(2,1fr); }
@@ -388,7 +388,7 @@ footer strong { color:rgba(240,240,240,.48); }
 </style>
 </head>
 <body>
-
+ 
 <!-- ════ NAV ════ -->
 <nav>
   <div class="nb">
@@ -406,15 +406,15 @@ footer strong { color:rgba(240,240,240,.48); }
   </ul>
   <div class="npill"><div class="dot"></div>MVP em negociação</div>
 </nav>
-
+ 
 <!-- ════ HERO ════ -->
 <section class="hero" id="inicio">
   <div class="hero-orb1"></div>
   <div class="hero-orb2"></div>
   <div class="hi">
-
+ 
     <div class="hero-eyebrow"><div class="dot"></div>Proposta confidencial · Belo Horizonte 2025</div>
-
+ 
     <div class="hero-brand">
       <div class="hero-brand-img"><img src="logo.jpg" alt="Hub Caicara Gall"></div>
       <div>
@@ -422,31 +422,31 @@ footer strong { color:rgba(240,240,240,.48); }
         <p>Rua Belmiro Braga, 1078 · Caiçara, BH/MG</p>
       </div>
     </div>
-
+ 
     <p class="hero-sub">Hub de mobilidade elétrica com carport solar 70 kWp, estacionamento, coworking e serviços. Parceria estratégica: Gall Administração × New Energy. Estrutura MVP com módulos condicionais.</p>
-
+ 
     <div class="hero-tags">
       <div class="htag"><div class="htag-dot" style="background:var(--amber)"></div>Gall Administração Ltda</div>
       <span style="color:rgba(240,240,240,.2);font-size:20px;line-height:1">×</span>
       <div class="htag"><div class="htag-dot" style="background:var(--teal)"></div>New Energy — Eng. e Energia</div>
     </div>
-
+ 
     <div class="hero-kpis">
       <div class="kpi"><div class="kv c1">R$ 42k</div><div class="kl">Receita Gall/mês<br>hub pleno</div></div>
       <div class="kpi"><div class="kv c2">70 kWp</div><div class="kl">Solar co-invest.<br>50/50 (Mód. C)</div></div>
       <div class="kpi"><div class="kv c3">18%</div><div class="kl">Royalty Gall fixo<br>independe do nº carg.</div></div>
-      <div class="kpi"><div class="kv c4">R$ 3.500</div><div class="kl">Garantia mínima<br>MVP · Mód. A</div></div>
+      <div class="kpi"><div class="kv c4">R$ 2.200</div><div class="kl">Garantia mínima<br>MVP · Mód. A</div></div>
     </div>
   </div>
 </section>
-
+ 
 <!-- ════ ETAPAS ════ -->
 <section id="etapas" class="sec-lt">
   <div class="si">
     <span class="sec-lbl">Fases do projeto</span>
     <h2 class="sec-ttl">Do MVP à visão completa</h2>
     <p class="sec-sub">Apenas o Módulo A é de implantação imediata. Todos os demais são possibilidades condicionais avaliadas pelas PARTES após validação do mercado.</p>
-
+ 
     <div class="egrid">
       <!-- ESTADO ATUAL -->
       <div class="ecard">
@@ -468,7 +468,7 @@ footer strong { color:rgba(240,240,240,.48); }
           <ul class="efts"><li>20 vagas de estacionamento</li><li>Rede elétrica existente</li><li>Área comercial com fluxo</li></ul>
         </div>
       </div>
-
+ 
       <!-- MÓDULO A — MVP -->
       <div class="ecard">
         <div class="eph" id="ph-e1">
@@ -486,14 +486,14 @@ footer strong { color:rgba(240,240,240,.48); }
           <span class="etag t-e1">Módulo A — MVP obrigatório</span>
           <div class="ettl">1 carregador duplo 120 kW</div>
           <div class="edsc">Único compromisso de implantação imediata. Valida a demanda antes de qualquer módulo adicional.</div>
-          <ul class="efts"><li>1 carregador duplo 120 kW (2 pts)</li><li>Infraestrutura elétrica dedicada</li><li>Garantia mínima R$ 3.500/mês</li><li>Instalação em até 60 dias</li></ul>
+          <ul class="efts"><li>1 carregador duplo 120 kW (2 pts)</li><li>Infraestrutura elétrica dedicada</li><li>Garantia mínima R$ 2.200/mês</li><li>Instalação em até 60 dias</li></ul>
           <div class="erev">
             <div><div class="rvv">R$ 4.888</div><div class="rvl">Gall/mês est.</div></div>
             <div><div class="rvv" style="color:var(--elec)">18%</div><div class="rvl">royalty fixo</div></div>
           </div>
         </div>
       </div>
-
+ 
       <!-- HUB PLENO -->
       <div class="ecard">
         <div class="eph" id="ph-e2">
@@ -519,13 +519,13 @@ footer strong { color:rgba(240,240,240,.48); }
         </div>
       </div>
     </div>
-
+ 
     <input type="file" class="hidden" id="up-atual" accept="image/*" onchange="loadE(this,'atual')">
     <input type="file" class="hidden" id="up-e1"    accept="image/*" onchange="loadE(this,'e1')">
     <input type="file" class="hidden" id="up-e2"    accept="image/*" onchange="loadE(this,'e2')">
   </div>
 </section>
-
+ 
 <!-- ════ FOTOS ════ -->
 <section id="fotos" class="sec-dk">
   <div class="si">
@@ -542,7 +542,7 @@ footer strong { color:rgba(240,240,240,.48); }
     <input type="file" class="hidden" id="finp" accept="image/*" onchange="loadF(this)">
   </div>
 </section>
-
+ 
 <!-- ════ CONTRATO ════ -->
 <section id="contrato" class="sec-lt">
   <div class="si">
@@ -571,32 +571,32 @@ footer strong { color:rgba(240,240,240,.48); }
             <div style="font-size:.9rem;font-weight:800;color:var(--pure);text-transform:uppercase;letter-spacing:.05em;line-height:1.5;margin-bottom:.4rem">Contrato de Permissão de Uso,<br>Receitas e Co-Investimento Fotovoltaico</div>
             <div style="font-size:11.5px;color:rgba(240,240,240,.3);font-family:var(--fm)">M1 · Minuta para avaliação dos sócios · 2025</div>
           </div>
-
+ 
           <div class="ch">Preâmbulo</div>
           <p style="margin-bottom:.65rem"><strong style="color:var(--pure)">GALL ADMINISTRAÇÃO LTDA</strong>, CNPJ 21.953.856/0001-51, Rua Belmiro Braga, 1078, Caiçara, BH/MG; e <strong style="color:var(--pure)">NEW ENERGY — ENGENHARIA E ENERGIA LTDA</strong>, Rua Prof. José Vieira de Mendonça, 45, Engenho Nogueira, BH/MG.</p>
-
+ 
           <div class="ch">Cláusula 1ª — Objeto e estrutura MVP</div>
           <div class="mvpbox"><strong style="color:var(--teal)">MÓDULO A (obrigatório e imediato):</strong> 1 carregador duplo 120 kW — único compromisso de implantação imediata. Todos os demais módulos são condicionais.</div>
           <p style="margin-bottom:.65rem;font-size:13px">Módulos condicionais — pré-acordados, <em>não automáticos</em>: C (solar 70 kWp), D (expansão carregadores), E (estacionamento), F (serviços extras). Ativação exige 90 dias de MVP + aprovação escrita de ambas as PARTES.</p>
-
+ 
           <div class="ch">Cláusula 3ª — Receitas (Módulo B)</div>
           <div class="chl"><strong style="color:var(--elec2)">Royalty:</strong> <strong style="color:var(--elec2)">18% fixo</strong> sobre a receita bruta do eletroposto, independentemente do número de carregadores. Dashboard em tempo real obrigatório para conferência.</div>
           <div class="chl"><strong style="color:var(--elec2)">Garantia mínima:</strong> R$ 3.500 → R$ 7.000 → R$ 10.500 → <strong style="color:var(--elec2)">R$ 14.000/mês</strong>. Automática, sem aditivo.</div>
           <div class="chl"><strong style="color:var(--elec2)">Serviços adicionais (Mód. F):</strong> modelo de aluguel por m² ou operação própria da Gall — <strong style="color:var(--teal)">sem % sobre receita bruta</strong>. Definido em aditivo.</div>
-
+ 
           <div class="ch">Cláusula 4ª — Solar 70 kWp (Módulo C — condicional)</div>
           <p style="margin-bottom:.65rem;font-size:13px">Não automático. Se aprovado: co-investimento 50/50, 35 kWp carport + 35 kWp cobertura. Economia CEMIG dividida igualmente. Em rescisão, Gall adquire parte da New Energy pelo valor depreciado em 24 meses.</p>
-
+ 
           <div class="ch">Cláusula 8ª — Módulos D, E, F + Tabela de Royalties</div>
           <p style="margin-bottom:.65rem;font-size:13px">Todos condicionais. Módulo E (estacionamento) pode ser operado pela Gall, New Energy ou terceiro — definido em aditivo. Serviços extras (Mód. F): aluguel por m² ou operação própria da Gall, sem % de receita bruta.</p>
-
+ 
           <div class="ch">Cláusula 12ª — Rescisão</div>
           <p style="margin-bottom:.65rem;font-size:13px">Multa sobre a garantia vigente: New Energy sem justa causa = 6×; Gall sem justa causa = 3×. Com 4 carregadores: multa máxima <strong style="color:var(--pure)">R$ 52.800</strong>.</p>
-
+ 
           <div style="margin-top:1.5rem;padding:.85rem 1rem;background:rgba(240,160,32,.07);border:1px solid rgba(240,160,32,.2);border-radius:8px;font-size:12.5px;color:rgba(240,240,240,.52)">⚠️ Minuta M1 — revisar com advogado antes de assinar.</div>
         </div>
       </div>
-
+ 
       <!-- SIDEBAR -->
       <div>
         <div class="sbox">
@@ -609,7 +609,7 @@ footer strong { color:rgba(240,240,240,.48); }
         </div>
         <div class="sbox">
           <div class="sbox-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Receita Gall</div>
-          <div class="sr"><span class="srl">MVP — garantia mínima</span><span style="font-size:12px;font-weight:600;color:var(--teal);font-family:var(--fm)">R$ 3.500/mês</span></div>
+          <div class="sr"><span class="srl">MVP — garantia mínima</span><span style="font-size:12px;font-weight:600;color:var(--teal);font-family:var(--fm)">R$ 2.200/mês</span></div>
           <div class="sr"><span class="srl">MVP — realista</span><span style="font-size:12px;font-weight:600;color:var(--teal);font-family:var(--fm)">R$ 4.888/mês</span></div>
           <div class="sr"><span class="srl">Hub completo</span><span style="font-size:12px;font-weight:600;color:var(--elec);font-family:var(--fm)">R$ 19.512+/mês</span></div>
         </div>
@@ -626,7 +626,7 @@ footer strong { color:rgba(240,240,240,.48); }
     </div>
   </div>
 </section>
-
+ 
 <!-- ════ AVALIAÇÕES ════ -->
 <section id="avaliacoes" class="sec-dk">
   <div class="si">
@@ -671,7 +671,7 @@ footer strong { color:rgba(240,240,240,.48); }
     </div>
   </div>
 </section>
-
+ 
 <!-- ════ DOCUMENTOS ════ -->
 <section id="documentos" class="sec-lt">
   <div class="si">
@@ -693,14 +693,14 @@ footer strong { color:rgba(240,240,240,.48); }
     </div>
   </div>
 </section>
-
+ 
 <!-- ════ BENCHMARKS ════ -->
 <section id="benchmarks" class="sec-dk">
   <div class="si">
     <span class="sec-lbl">Estudo de mercado</span>
     <h2 class="sec-ttl">Casos reais no Brasil</h2>
     <p class="sec-sub">O modelo já está validado em operação. O Caiçara tem vantagens que nenhum dos casos de referência possui.</p>
-
+ 
     <div class="bmgrid">
       <div class="bmc">
         <div class="bmp"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Enel X SP Market"><div class="bmloc">São Paulo / SP</div></div>
@@ -742,7 +742,7 @@ footer strong { color:rgba(240,240,240,.48); }
         </div>
       </div>
     </div>
-
+ 
     <div class="bm2col">
       <div class="bmbox">
         <div class="bmbox-t" style="color:var(--pure)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--elec)" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.4 9l-5.4 5.4-2.4-2.4L5 17.5"/></svg>Mercado brasileiro · ago/2025</div>
@@ -762,7 +762,7 @@ footer strong { color:rgba(240,240,240,.48); }
         <div class="bmbul"><div class="bmbd2" style="background:var(--amber)"></div><p>Solar 70 kWp co-investido: nenhum caso de referência tem esse diferencial competitivo.</p></div>
       </div>
     </div>
-
+ 
     <div class="tw">
       <table>
         <thead><tr><th>Projeto</th><th>Modelo</th><th>Pts DC</th><th>Serviços</th><th>Solar</th><th>Status</th></tr></thead>
@@ -777,7 +777,7 @@ footer strong { color:rgba(240,240,240,.48); }
     <div style="font-size:11.5px;color:rgba(240,240,240,.28);line-height:1.7">Fontes: Enel X (fev/2024) · Estapar/Eletrobras (fev/2025) · YellotMob · ABVE/Tupi Mobilidade (ago/2025) · dados próprios New Energy.</div>
   </div>
 </section>
-
+ 
 <!-- ════ FINANCEIRO ════ -->
 <section id="financeiro" class="sec-lt">
   <div class="si">
@@ -785,7 +785,7 @@ footer strong { color:rgba(240,240,240,.48); }
     <h2 class="sec-ttl">Receitas da Gall — todas as fontes</h2>
     <p class="sec-sub">Royalty fixo de 18% sobre receita bruta do eletroposto. Serviços extras e estacionamento definidos em aditivos separados.</p>
     <div class="fkpis">
-      <div class="fk"><div class="fkl">Garantia mín. MVP</div><div class="fkv a">R$ 3.500</div><div class="fks">por mês · 1 carregador</div></div>
+      <div class="fk"><div class="fkl">Garantia mín. MVP</div><div class="fkv a">R$ 2.200</div><div class="fks">por mês · 1 carregador</div></div>
       <div class="fk"><div class="fkl">Gall MVP — realista</div><div class="fkv">R$ 4.888</div><div class="fks">18% × receita bruta</div></div>
       <div class="fk"><div class="fkl">Gall 4 carregadores</div><div class="fkv t">R$ 19.512</div><div class="fks">18% × R$ 108.624</div></div>
       <div class="fk"><div class="fkl">Royalty fixo</div><div class="fkv e">18%</div><div class="fks">independe do nº de carg.</div></div>
@@ -806,24 +806,24 @@ footer strong { color:rgba(240,240,240,.48); }
       </table>
     </div>
     <div style="font-size:11.5px;color:rgba(240,240,240,.35);line-height:1.7">* Módulos condicionais — valores definidos em aditivos após aprovação das PARTES. Premissa eletroposto: R$ 3,10/kWh · 10% de ocupação (proposta New Energy). Royalty de 18% fixo sobre receita bruta do eletroposto, independente do número de carregadores.</div>
-
+ 
 <footer>
   <div class="ftr-logo"><img src="logo.jpg" alt="Hub Caicara Gall"></div>
   <strong>Hub Caicara Gall</strong> · Gall Administração Ltda × New Energy Engenharia e Energia<br>
   <span style="margin-top:5px;display:block">Rua Belmiro Braga, 1078 — Caiçara, Belo Horizonte/MG · Documento confidencial · 2025</span>
 </footer>
-
+ 
 <div class="toast" id="toast"><div class="tdot"></div><span id="tmsg"></span></div>
-
+ 
 <script>
 /* TOAST */
 function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
-
+ 
 /* NAV ACTIVE */
 const _secs=document.querySelectorAll('section[id]');
 const _nls=document.querySelectorAll('.nl a');
 window.addEventListener('scroll',()=>{let c='';_secs.forEach(s=>{if(window.scrollY>=s.offsetTop-72)c=s.id;});_nls.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+c));},{passive:true});
-
+ 
 /* ETAPA UPLOADS */
 function triggerE(id){document.getElementById('up-'+id).click();}
 function loadE(inp,id){
@@ -836,7 +836,7 @@ function loadE(inp,id){
     toast('Foto carregada!');
   };r.readAsDataURL(f);
 }
-
+ 
 /* GALERIA */
 let _cf=null, _fc=4;
 function triggerF(i){_cf=i;document.getElementById('finp').click();}
@@ -859,18 +859,18 @@ function addFS(){
   d.innerHTML=`<img id="fi-${i}" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Foto ${i+1}</div>`;
   g.insertBefore(d,btn);
 }
-
+ 
 /* ESTRELAS */
 const _rats={g:0,n:0};
 function setSt(p,n){
   _rats[p]=n;
   document.getElementById(p+'s').querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));
 }
-
+ 
 /* AVALIAÇÕES */
 const _revs=[];
 const _posL={aprovado:'Aprovado',ressalvas:'Aprovado c/ ressalvas',revisao:'Solicita revisão',contraproposta:'Contraproposta',aguardo:'Aguardando',nao:'Não aprovado'};
-
+ 
 function submitRev(p){
   const nome=document.getElementById(p+'n').value.trim();
   const pos=document.getElementById(p+'p').value;
@@ -900,12 +900,12 @@ function renderRevs(){
   });
 }
 try{const s=localStorage.getItem('hcg');if(s){JSON.parse(s).forEach(r=>_revs.push(r));renderRevs();}}catch(e){}
-
+ 
 /* DOCUMENTOS */
 const _extM={docx:'dt',pdf:'dp',jpg:'di',jpeg:'di',png:'di',xlsx:'dt'};
 const _catM={dt:{l:'Contrato',c:'dc'},dp:{l:'Jurídico',c:'dj'},di:{l:'Técnico',c:'dt2'},xlsx:{l:'Financeiro',c:'df'}};
 const _svgM={dt:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--elec2)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`,dp:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`,di:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`};
-
+ 
 function addDItem(file){
   const ext=(file.name.split('.').pop()||'').toLowerCase();
   const t=_extM[ext]||'dp';
