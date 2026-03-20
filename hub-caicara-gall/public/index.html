@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub Caicara Gall</title>
+<link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   DESIGN TOKENS — extraídos da logo
+   #001428  navy (fundo)
+   #14a0dc  azul elétrico (tomada)
+   #506464  slate (símbolo HJ)
+   #f0f0f0  branco (pinos / texto)
+═══════════════════════════════════════ */
+:root {
+  --ink:    #001428;
+  --ink2:   #001e3c;
+  --ink3:   #002952;
+  --elec:   #14a0dc;
+  --elec2:  #3db8ef;
+  --elec3:  #0c6fa0;
+  --slate:  #506464;
+  --slate2: #7a9898;
+  --w:      #f0f0f0;
+  --pure:   #ffffff;
+  --teal:   #00c896;
+  --amber:  #f0a020;
+  --red:    #e84040;
+
+  --glass:  rgba(255,255,255,.04);
+  --glass2: rgba(255,255,255,.07);
+  --bdr:    rgba(20,160,220,.15);
+  --bdrh:   rgba(20,160,220,.38);
+
+  --r:  8px;
+  --rl: 16px;
+  --fh: 'Outfit', sans-serif;
+  --fm: 'JetBrains Mono', monospace;
+}
+
+/* ─── RESET ─── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  font-family: var(--fh);
+  background: var(--ink);
+  color: var(--w);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ─── AMBIENT LAYERS ─── */
+body::before {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 10%, rgba(20,160,220,.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 5%  80%, rgba(0,200,150,.06)  0%, transparent 55%);
+}
+/* circuit grid */
+body::after {
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(rgba(20,160,220,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,160,220,.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  height: 58px;
+  background: rgba(0,20,40,.94);
+  backdrop-filter: blur(18px) saturate(1.6);
+  border-bottom: 1px solid var(--bdr);
+  display: flex; align-items:center; justify-content:space-between;
+  padding: 0 2rem;
+}
+.nb { display:flex; align-items:center; gap:11px; }
+.nb-logo { width:34px; height:34px; border-radius:8px; overflow:hidden; border:1px solid var(--bdr); flex-shrink:0; }
+.nb-logo img { width:100%; height:100%; object-fit:cover; }
+.nb-name { font-size:14px; font-weight:700; color:var(--pure); letter-spacing:-.01em; line-height:1.2; }
+.nb-name small { display:block; font-size:10px; font-weight:400; color:var(--elec); letter-spacing:.09em; text-transform:uppercase; }
+.nl { display:flex; gap:1px; list-style:none; }
+.nl a { color:rgba(240,240,240,.48); text-decoration:none; font-size:12.5px; font-weight:500; padding:6px 11px; border-radius:6px; transition:all .16s; white-space:nowrap; }
+.nl a:hover, .nl a.on { color:var(--pure); background:var(--glass2); }
+.npill { display:flex; align-items:center; gap:6px; background:rgba(20,160,220,.1); border:1px solid rgba(20,160,220,.22); border-radius:20px; padding:5px 13px; font-size:11.5px; font-weight:600; color:var(--elec2); white-space:nowrap; }
+.dot { width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(1.7)} }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex; flex-direction:column; justify-content:center;
+  padding: 100px 2rem 80px;
+  overflow: hidden;
+}
+.hero-orb1 { position:absolute; top:-120px; right:-80px; width:650px; height:650px; border-radius:50%; background:radial-gradient(circle, rgba(20,160,220,.12), transparent 65%); filter:blur(60px); pointer-events:none; z-index:1; }
+.hero-orb2 { position:absolute; bottom:-150px; left:-100px; width:550px; height:550px; border-radius:50%; background:radial-gradient(circle, rgba(0,200,150,.08), transparent 65%); filter:blur(70px); pointer-events:none; z-index:1; }
+.hi { max-width:1080px; margin:0 auto; width:100%; position:relative; z-index:2; }
+
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(20,160,220,.1); border:1px solid rgba(20,160,220,.25);
+  color:var(--elec2); font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase;
+  padding:5px 14px; border-radius:20px; margin-bottom:1.8rem;
+  animation: fadeUp .6s ease both;
+}
+
+.hero-brand {
+  display:flex; align-items:center; gap:22px; margin-bottom:2rem;
+  animation: fadeUp .6s .06s ease both;
+}
+.hero-brand-img { width:80px; height:80px; border-radius:18px; overflow:hidden; border:1px solid var(--bdrh); box-shadow:0 0 40px rgba(20,160,220,.22); flex-shrink:0; }
+.hero-brand-img img { width:100%; height:100%; object-fit:cover; }
+.hero-brand h1 { font-size:clamp(2.6rem,4.8vw,4rem); font-weight:900; line-height:.92; letter-spacing:-.035em; color:var(--pure); }
+.hero-brand h1 em { font-style:normal; color:var(--elec); }
+.hero-brand p  { font-size:.9rem; color:rgba(240,240,240,.45); margin-top:.55rem; font-weight:400; }
+
+.hero-sub { font-size:1.05rem; color:rgba(240,240,240,.52); max-width:500px; line-height:1.82; margin-bottom:2.5rem; animation:fadeUp .6s .12s ease both; }
+
+.hero-tags { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:3rem; animation:fadeUp .6s .18s ease both; }
+.htag { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:7px; padding:6px 12px; color:rgba(240,240,240,.72); font-size:12.5px; font-weight:500; }
+.htag-dot { width:6px; height:6px; border-radius:50%; }
+
+.hero-kpis {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1px; background:rgba(20,160,220,.12);
+  border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden;
+  animation:fadeUp .6s .25s ease both;
+}
+.kpi { background:rgba(0,20,40,.65); backdrop-filter:blur(10px); padding:1.4rem 1.5rem; transition:background .2s; }
+.kpi:hover { background:var(--glass2); }
+.kv { font-size:1.95rem; font-weight:800; line-height:1; letter-spacing:-.025em; margin-bottom:4px; }
+.kv.c1 { color:var(--elec); }
+.kv.c2 { color:var(--teal); }
+.kv.c3 { color:var(--amber); }
+.kv.c4 { color:var(--pure); }
+.kl { font-size:11.5px; color:rgba(240,240,240,.36); line-height:1.4; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px) } to { opacity:1; transform:translateY(0) } }
+
+/* ─── SECTIONS ─── */
+section { scroll-margin-top:58px; position:relative; z-index:2; }
+.si { max-width:1080px; margin:0 auto; padding:5rem 2rem; }
+.sec-lbl { display:block; font-size:10.5px; font-weight:600; letter-spacing:.14em; color:var(--elec); text-transform:uppercase; margin-bottom:.55rem; }
+.sec-ttl { font-size:clamp(1.65rem,2.9vw,2.4rem); font-weight:800; letter-spacing:-.02em; line-height:1.08; color:var(--pure); margin-bottom:1rem; }
+.sec-sub { color:rgba(240,240,240,.48); font-size:.97rem; max-width:500px; line-height:1.8; margin-bottom:2.5rem; }
+.sec-lt  { background:rgba(255,255,255,.02); border-top:1px solid var(--bdr); border-bottom:1px solid var(--bdr); }
+.sec-dk  { background:rgba(0,8,18,.45); }
+
+/* ─── ETAPAS ─── */
+.egrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+.ecard {
+  background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+}
+.ecard:hover { transform:translateY(-6px); border-color:var(--bdrh); box-shadow:0 24px 52px rgba(20,160,220,.13); }
+.eph { position:relative; height:185px; background:linear-gradient(135deg,var(--ink2),var(--ink3)); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.eph img { width:100%; height:100%; object-fit:cover; display:none; }
+.eph img.vis { display:block; }
+.ephph { display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--slate2); font-size:12px; text-align:center; padding:.75rem; }
+.ephph svg { width:30px; height:30px; opacity:.38; }
+.eupbtn {
+  position:absolute; bottom:9px; right:9px;
+  background:rgba(0,20,40,.88); backdrop-filter:blur(8px); border:1px solid var(--bdr);
+  border-radius:7px; padding:5px 10px; font-size:11.5px; font-weight:500; cursor:pointer;
+  display:flex; align-items:center; gap:4px; color:var(--elec2); transition:all .18s; font-family:var(--fh);
+}
+.eupbtn:hover { background:rgba(20,160,220,.15); border-color:var(--bdrh); }
+.ebdy { padding:1.1rem 1.35rem 1.45rem; }
+.etag { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:.65rem; }
+.t-now { background:rgba(240,160,32,.12); color:var(--amber); }
+.t-e1  { background:rgba(20,160,220,.12); color:var(--elec2); }
+.t-e2  { background:rgba(0,200,150,.1); color:var(--teal); }
+.ettl  { font-size:1rem; font-weight:700; color:var(--pure); margin-bottom:.4rem; letter-spacing:-.01em; }
+.edsc  { font-size:12.5px; color:rgba(240,240,240,.48); line-height:1.65; margin-bottom:.9rem; }
+.efts  { list-style:none; }
+.efts li { font-size:12.5px; color:rgba(240,240,240,.52); padding:3px 0; display:flex; align-items:flex-start; gap:7px; }
+.efts li::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--elec); margin-top:7px; flex-shrink:0; }
+.erev  { margin-top:.9rem; padding-top:.9rem; border-top:1px solid rgba(255,255,255,.06); display:flex; gap:1.5rem; }
+.rvv   { font-family:var(--fm); font-size:1.1rem; font-weight:500; color:var(--pure); line-height:1; }
+.rvl   { font-size:10.5px; color:rgba(240,240,240,.32); margin-top:2px; }
+
+/* ─── FOTOS ─── */
+.fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:.85rem; }
+.fslot {
+  border-radius:var(--r); overflow:hidden; border:1px dashed rgba(20,160,220,.25);
+  background:var(--glass); aspect-ratio:4/3; position:relative;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  cursor:pointer; transition:all .2s;
+}
+.fslot:hover { border-color:var(--bdrh); background:var(--glass2); }
+.fslot.fp    { border-style:solid; border-color:var(--bdr); }
+.fslot img   { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:none; }
+.fslot.fp img{ display:block; }
+.fov  { position:absolute; inset:0; background:rgba(0,20,40,.6); display:none; align-items:center; justify-content:center; gap:6px; color:var(--pure); font-size:12.5px; backdrop-filter:blur(4px); }
+.fslot.fp:hover .fov { display:flex; }
+.fph  { display:flex; flex-direction:column; align-items:center; gap:6px; }
+.fph svg { width:26px; height:26px; opacity:.38; color:var(--slate2); }
+.fph-t { font-size:12px; color:rgba(240,240,240,.38); text-align:center; padding:0 .6rem; line-height:1.5; }
+.fadd { border-radius:var(--r); border:1px dashed rgba(20,160,220,.2); background:transparent; aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; cursor:pointer; transition:all .2s; color:rgba(240,240,240,.3); font-size:12.5px; font-family:var(--fh); }
+.fadd:hover { border-color:var(--bdrh); color:var(--elec2); background:var(--glass); }
+.fadd svg { width:24px; height:24px; }
+
+/* ─── CONTRATO ─── */
+.clayout { display:grid; grid-template-columns:1fr 310px; gap:2rem; align-items:start; }
+.cview { border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; background:var(--glass); }
+.cbar  { background:rgba(0,8,18,.7); backdrop-filter:blur(10px); padding:11px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--bdr); }
+.cbar-l { color:rgba(240,240,240,.6); font-size:12.5px; font-weight:500; display:flex; align-items:center; gap:9px; }
+.cbar-dots { display:flex; gap:5px; }
+.cbar-dot  { width:10px; height:10px; border-radius:50%; }
+.cbar-l svg{ width:14px; height:14px; opacity:.6; }
+.cacts { display:flex; gap:5px; }
+.bs { padding:5px 12px; border-radius:6px; font-size:11.5px; font-weight:600; cursor:pointer; border:1px solid var(--bdr); background:var(--glass); color:rgba(240,240,240,.62); transition:all .18s; display:flex; align-items:center; gap:4px; font-family:var(--fh); text-decoration:none; }
+.bs:hover { background:var(--glass2); color:var(--pure); border-color:var(--bdrh); }
+.bs.pri   { background:var(--elec); border-color:var(--elec); color:#001428; }
+.bs.pri:hover { background:var(--elec2); }
+.cscroll { padding:1.75rem 2rem; max-height:560px; overflow-y:auto; font-size:13.5px; line-height:1.82; color:rgba(240,240,240,.58); }
+.cscroll::-webkit-scrollbar { width:4px; }
+.cscroll::-webkit-scrollbar-thumb { background:rgba(20,160,220,.2); border-radius:3px; }
+.ch { font-size:.8rem; font-weight:700; color:var(--elec); margin:1.3rem 0 .45rem; text-transform:uppercase; letter-spacing:.07em; padding-bottom:5px; border-bottom:1px solid rgba(20,160,220,.18); }
+.chl { background:rgba(20,160,220,.07); border-left:2px solid var(--elec); padding:.6rem .9rem; border-radius:0 6px 6px 0; margin:.6rem 0; font-size:13px; color:rgba(240,240,240,.72); }
+.mvpbox { background:rgba(0,200,150,.07); border:1px solid rgba(0,200,150,.2); border-radius:var(--r); padding:.85rem 1rem; margin:.75rem 0; font-size:13px; color:rgba(240,240,240,.72); }
+.sbox { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); padding:1.25rem; margin-bottom:1rem; }
+.sbox-t { font-size:.85rem; font-weight:700; color:var(--pure); margin-bottom:.9rem; display:flex; align-items:center; gap:7px; letter-spacing:-.01em; }
+.sbox-t svg { width:14px; height:14px; color:var(--elec); }
+.sr { display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:12.5px; }
+.sr:last-child { border-bottom:none; }
+.srl { color:rgba(240,240,240,.48); }
+.badge { font-size:10px; font-weight:700; padding:2px 9px; border-radius:20px; letter-spacing:.04em; }
+.bwarn { background:rgba(240,160,32,.12); color:var(--amber); }
+.bok   { background:rgba(0,200,150,.12); color:var(--teal); }
+.binfo { background:rgba(20,160,220,.12); color:var(--elec2); }
+
+/* ─── AVALIAÇÕES ─── */
+.avgrid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.5rem; }
+.avc { border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; background:var(--glass); }
+.avc.ga .avhd { background:linear-gradient(135deg,rgba(0,20,40,1),rgba(0,41,82,.85)); border-bottom:1px solid rgba(20,160,220,.18); }
+.avc.ne .avhd { background:linear-gradient(135deg,rgba(0,25,18,1),rgba(0,70,45,.85)); border-bottom:1px solid rgba(0,200,150,.18); }
+.avhd { padding:1rem 1.25rem; display:flex; align-items:center; gap:11px; }
+.avico { width:38px; height:38px; border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.avc.ga .avico { background:rgba(20,160,220,.14); border:1px solid rgba(20,160,220,.22); }
+.avc.ne .avico { background:rgba(0,200,150,.12); border:1px solid rgba(0,200,150,.2); }
+.avico svg { width:18px; height:18px; }
+.avc.ga .avico svg { stroke:var(--elec2); }
+.avc.ne .avico svg { stroke:var(--teal); }
+.avhdt h3 { font-size:.9rem; font-weight:700; color:var(--pure); letter-spacing:-.01em; }
+.avhdt p  { font-size:11.5px; color:rgba(240,240,240,.38); margin-top:1px; }
+.avbdy { padding:1.25rem; }
+.fg { margin-bottom:.85rem; }
+.fg label { display:block; font-size:11.5px; font-weight:500; color:rgba(240,240,240,.42); margin-bottom:5px; }
+.fg input, .fg textarea, .fg select {
+  width:100%; padding:9px 11px; border:1px solid var(--bdr); border-radius:7px;
+  font-size:13.5px; font-family:var(--fh); background:rgba(0,20,40,.6); color:var(--w);
+  transition:border-color .18s; resize:vertical;
+}
+.fg input:focus, .fg textarea:focus, .fg select:focus { outline:none; border-color:var(--bdrh); background:rgba(0,20,40,.85); }
+.fg select option { background:#001428; }
+.fg textarea { min-height:95px; }
+.stars-row { display:flex; gap:5px; margin-bottom:.4rem; }
+.star { font-size:22px; cursor:pointer; color:rgba(255,255,255,.15); transition:color .12s; line-height:1; }
+.star.on { color:var(--amber); }
+.avbtn { width:100%; padding:10px; border-radius:8px; border:none; font-size:13.5px; font-weight:700; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:7px; font-family:var(--fh); }
+.avc.ga .avbtn { background:var(--elec); color:#001428; }
+.avc.ga .avbtn:hover { background:var(--elec2); }
+.avc.ne .avbtn { background:var(--teal); color:#001428; }
+.avc.ne .avbtn:hover { background:#00e8a8; }
+.avres { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); padding:1.25rem; }
+.avres-t { font-size:.95rem; font-weight:700; color:var(--pure); margin-bottom:1rem; display:flex; align-items:center; gap:8px; }
+.avres-t svg { width:16px; height:16px; color:var(--elec); }
+.rempty { text-align:center; color:rgba(240,240,240,.28); font-size:13.5px; padding:1.5rem 0; }
+.ritem { background:rgba(0,20,40,.4); border:1px solid var(--bdr); border-radius:var(--r); padding:.9rem 1rem; margin-bottom:.65rem; }
+.ritem.rg { border-left:2px solid var(--elec); }
+.ritem.rn { border-left:2px solid var(--teal); }
+.rmeta { display:flex; justify-content:space-between; margin-bottom:.35rem; }
+.rwho  { font-size:12px; font-weight:700; color:var(--pure); }
+.rdt   { font-size:11px; color:rgba(240,240,240,.28); }
+.rstars{ color:var(--amber); font-size:12.5px; margin-bottom:.3rem; }
+.rpos  { font-size:11.5px; font-weight:600; color:rgba(240,240,240,.45); margin-bottom:.3rem; }
+.rtxt  { font-size:13px; color:rgba(240,240,240,.65); line-height:1.65; }
+.rnm   { font-size:11px; color:rgba(240,240,240,.28); margin-top:.3rem; }
+
+/* ─── DOCUMENTOS ─── */
+.ddrop { border:1px dashed rgba(20,160,220,.28); border-radius:var(--rl); padding:2.25rem; text-align:center; background:var(--glass); transition:all .2s; cursor:pointer; margin-bottom:1.25rem; }
+.ddrop:hover, .ddrop.drag { border-color:var(--bdrh); background:var(--glass2); }
+.ddico { width:48px; height:48px; background:rgba(20,160,220,.1); border:1px solid rgba(20,160,220,.18); border-radius:12px; display:flex; align-items:center; justify-content:center; margin:0 auto .85rem; }
+.ddico svg { width:24px; height:24px; color:var(--elec2); }
+.ddtt { font-size:.9rem; font-weight:700; color:var(--pure); margin-bottom:.3rem; }
+.ddsb { font-size:12.5px; color:rgba(240,240,240,.32); }
+.dlist { display:flex; flex-direction:column; gap:6px; }
+.ditem { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--r); padding:10px 13px; display:flex; align-items:center; gap:11px; transition:border-color .18s; }
+.ditem:hover { border-color:var(--bdrh); }
+.dico { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.dico.dt { background:rgba(20,160,220,.1); }
+.dico.dp { background:rgba(232,64,64,.1); }
+.dico.di { background:rgba(0,200,150,.1); }
+.dico svg { width:17px; height:17px; }
+.dinf { flex:1; min-width:0; }
+.dnm  { font-size:13.5px; font-weight:500; color:var(--pure); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dmt  { font-size:11px; color:rgba(240,240,240,.32); margin-top:1px; }
+.dcat { font-size:10px; font-weight:700; padding:2px 9px; border-radius:20px; white-space:nowrap; letter-spacing:.04em; }
+.dc { background:rgba(20,160,220,.1); color:var(--elec2); }
+.dt2{ background:rgba(0,200,150,.1); color:var(--teal); }
+.df { background:rgba(240,160,32,.1); color:var(--amber); }
+.dj { background:rgba(160,100,220,.1); color:#c080e8; }
+.ddel { width:26px; height:26px; border-radius:6px; background:transparent; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:rgba(240,240,240,.28); transition:all .15s; }
+.ddel:hover { background:rgba(232,64,64,.15); color:var(--red); }
+.ddel svg { width:13px; height:13px; }
+
+/* ─── BENCHMARKS ─── */
+.bmgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2rem; }
+.bmc { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; transition:transform .25s, border-color .25s; }
+.bmc:hover { transform:translateY(-5px); border-color:var(--bdrh); }
+.bmp { height:175px; overflow:hidden; position:relative; background:var(--ink2); }
+.bmp img { width:100%; height:100%; object-fit:cover; opacity:.72; transition:opacity .3s; }
+.bmc:hover .bmp img { opacity:.88; }
+.bmloc { position:absolute; bottom:9px; left:11px; background:rgba(0,20,40,.82); backdrop-filter:blur(6px); color:rgba(240,240,240,.78); font-size:10.5px; font-weight:600; padding:3px 9px; border-radius:20px; letter-spacing:.05em; border:1px solid rgba(255,255,255,.1); }
+.bmbd { padding:1rem 1.2rem 1.3rem; }
+.bmtag { display:inline-block; font-size:10px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; padding:3px 9px; border-radius:20px; margin-bottom:.6rem; }
+.bmtt  { font-size:.95rem; font-weight:700; color:var(--pure); margin-bottom:.4rem; letter-spacing:-.01em; }
+.bmds  { font-size:12.5px; color:rgba(240,240,240,.48); line-height:1.65; margin-bottom:.8rem; }
+.bmst  { display:flex; gap:1rem; padding-top:.8rem; border-top:1px solid rgba(255,255,255,.06); }
+.bmsv  { font-family:var(--fm); font-size:1rem; font-weight:500; color:var(--pure); line-height:1; }
+.bmsl  { font-size:10px; color:rgba(240,240,240,.32); margin-top:2px; }
+.bm2col { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:1.75rem; }
+.bmbox  { background:var(--glass); border:1px solid var(--bdr); border-radius:var(--rl); padding:1.4rem; }
+.bmbox-t { font-size:.85rem; font-weight:700; color:var(--pure); margin-bottom:1rem; display:flex; align-items:center; gap:7px; }
+.bmbox-t svg { width:14px; height:14px; }
+.bmrow { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:13px; }
+.bmrow:last-child { border-bottom:none; }
+.bmrow span:first-child { color:rgba(240,240,240,.48); }
+.bmrow span:last-child  { font-weight:600; color:var(--pure); }
+.bmbul { display:flex; gap:9px; align-items:flex-start; margin-bottom:.85rem; }
+.bmbul:last-child { margin-bottom:0; }
+.bmbd2 { width:5px; height:5px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+.bmbul p { font-size:13px; color:rgba(240,240,240,.62); line-height:1.62; }
+
+/* ─── TABLE ─── */
+.tw { overflow-x:auto; margin-bottom:1.25rem; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; padding:9px 11px; color:rgba(240,240,240,.38); font-size:10.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,.07); }
+td { padding:11px 11px; border-bottom:1px solid rgba(255,255,255,.04); color:rgba(240,240,240,.68); }
+tr:last-child td { border-bottom:none; font-weight:600; color:var(--pure); }
+.thi { color:var(--teal)!important; }
+.tel { color:var(--elec2)!important; }
+.tam { color:var(--amber)!important; }
+tr.thl td { background:rgba(20,160,220,.05); color:var(--pure); }
+
+/* ─── FINANCEIRO ─── */
+.fkpis { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(20,160,220,.1); border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden; margin-bottom:2rem; }
+.fk { background:rgba(0,8,18,.55); padding:1.3rem; transition:background .2s; }
+.fk:hover { background:var(--glass2); }
+.fkl { font-size:11px; color:rgba(240,240,240,.32); letter-spacing:.05em; margin-bottom:5px; }
+.fkv { font-family:var(--fm); font-size:1.55rem; font-weight:500; color:var(--pure); line-height:1; }
+.fkv.e { color:var(--elec); }
+.fkv.t { color:var(--teal); }
+.fkv.a { color:var(--amber); }
+.fks { font-size:11px; color:rgba(240,240,240,.25); margin-top:3px; }
+
+/* ─── FOOTER ─── */
+footer { background:rgba(0,6,14,.85); border-top:1px solid var(--bdr); padding:2rem; text-align:center; color:rgba(240,240,240,.22); font-size:12px; position:relative; z-index:2; }
+footer strong { color:rgba(240,240,240,.48); }
+.ftr-logo { width:36px; height:36px; border-radius:8px; overflow:hidden; border:1px solid var(--bdr); margin:0 auto 1rem; }
+.ftr-logo img { width:100%; height:100%; object-fit:cover; }
+
+/* ─── TOAST ─── */
+.toast { position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(0,18,38,.97); backdrop-filter:blur(14px); border:1px solid var(--bdrh); color:var(--pure); padding:11px 16px; border-radius:10px; font-size:13.5px; box-shadow:0 8px 32px rgba(20,160,220,.22); transform:translateY(80px); opacity:0; transition:all .3s; display:flex; align-items:center; gap:8px; }
+.toast.on { transform:translateY(0); opacity:1; }
+.tdot { width:6px; height:6px; border-radius:50%; background:var(--teal); }
+.hidden { display:none; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width:900px) {
+  .hero-kpis, .fkpis { grid-template-columns:repeat(2,1fr); }
+  .egrid, .bmgrid, .avgrid, .bm2col { grid-template-columns:1fr; }
+  .clayout { grid-template-columns:1fr; }
+  .hero-brand { flex-direction:column; align-items:flex-start; gap:14px; }
+  .nl { display:none; }
+  nav { padding:0 1rem; }
+  .si { padding:3rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav>
+  <div class="nb">
+    <div class="nb-logo"><img src="logo.jpg" alt="Hub Caicara Gall"></div>
+    <div class="nb-name">Hub Caicara Gall <small>Gall Adm × New Energy</small></div>
+  </div>
+  <ul class="nl">
+    <li><a href="#etapas">Etapas</a></li>
+    <li><a href="#fotos">Local</a></li>
+    <li><a href="#contrato">Contrato</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#documentos">Documentos</a></li>
+    <li><a href="#benchmarks">Mercado</a></li>
+    <li><a href="#financeiro">Financeiro</a></li>
+  </ul>
+  <div class="npill"><div class="dot"></div>MVP em negociação</div>
+</nav>
+
+<!-- ════ HERO ════ -->
+<section class="hero" id="inicio">
+  <div class="hero-orb1"></div>
+  <div class="hero-orb2"></div>
+  <div class="hi">
+
+    <div class="hero-eyebrow"><div class="dot"></div>Proposta confidencial · Belo Horizonte 2025</div>
+
+    <div class="hero-brand">
+      <div class="hero-brand-img"><img src="logo.jpg" alt="Hub Caicara Gall"></div>
+      <div>
+        <h1><em>Hub</em> Caicara<br>Gall</h1>
+        <p>Rua Belmiro Braga, 1078 · Caiçara, BH/MG</p>
+      </div>
+    </div>
+
+    <p class="hero-sub">Hub de mobilidade elétrica com carport solar 70 kWp, estacionamento, coworking e serviços. Parceria estratégica: Gall Administração × New Energy. Estrutura MVP com módulos condicionais.</p>
+
+    <div class="hero-tags">
+      <div class="htag"><div class="htag-dot" style="background:var(--amber)"></div>Gall Administração Ltda</div>
+      <span style="color:rgba(240,240,240,.2);font-size:20px;line-height:1">×</span>
+      <div class="htag"><div class="htag-dot" style="background:var(--teal)"></div>New Energy — Eng. e Energia</div>
+    </div>
+
+    <div class="hero-kpis">
+      <div class="kpi"><div class="kv c1">R$ 42k</div><div class="kl">Receita Gall/mês<br>hub pleno</div></div>
+      <div class="kpi"><div class="kv c2">70 kWp</div><div class="kl">Solar co-invest.<br>50/50 (Mód. C)</div></div>
+      <div class="kpi"><div class="kv c3">19,5%</div><div class="kl">Royalty Gall máx.<br>4 carregadores</div></div>
+      <div class="kpi"><div class="kv c4">R$ 2.200</div><div class="kl">Garantia mínima<br>MVP · Mód. A</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ ETAPAS ════ -->
+<section id="etapas" class="sec-lt">
+  <div class="si">
+    <span class="sec-lbl">Fases do projeto</span>
+    <h2 class="sec-ttl">Do MVP à visão completa</h2>
+    <p class="sec-sub">Apenas o Módulo A é de implantação imediata. Todos os demais são possibilidades condicionais avaliadas pelas PARTES após validação do mercado.</p>
+
+    <div class="egrid">
+      <!-- ESTADO ATUAL -->
+      <div class="ecard">
+        <div class="eph" id="ph-atual">
+          <img id="img-atual" alt="">
+          <div class="ephph" id="pp-atual">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            <div>Foto atual do espaço</div>
+          </div>
+          <button class="eupbtn" onclick="triggerE('atual')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Adicionar foto
+          </button>
+        </div>
+        <div class="ebdy">
+          <span class="etag t-now">Estado atual</span>
+          <div class="ettl">Rua Belmiro Braga, 1078</div>
+          <div class="edsc">Área com 20 vagas disponíveis para transformação em hub de mobilidade elétrica.</div>
+          <ul class="efts"><li>20 vagas de estacionamento</li><li>Rede elétrica existente</li><li>Área comercial com fluxo</li></ul>
+        </div>
+      </div>
+
+      <!-- MÓDULO A — MVP -->
+      <div class="ecard">
+        <div class="eph" id="ph-e1">
+          <img id="img-e1" alt="">
+          <div class="ephph" id="pp-e1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div>Renderização IA — MVP</div>
+          </div>
+          <button class="eupbtn" onclick="triggerE('e1')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Carregar imagem IA
+          </button>
+        </div>
+        <div class="ebdy">
+          <span class="etag t-e1">Módulo A — MVP obrigatório</span>
+          <div class="ettl">1 carregador duplo 120 kW</div>
+          <div class="edsc">Único compromisso de implantação imediata. Valida a demanda antes de qualquer módulo adicional.</div>
+          <ul class="efts"><li>1 carregador duplo 120 kW (2 pts)</li><li>Infraestrutura elétrica dedicada</li><li>Garantia mínima R$ 2.200/mês</li><li>Payback New Energy ~7 meses</li></ul>
+          <div class="erev">
+            <div><div class="rvv">R$ 13,9k</div><div class="rvl">Gall/mês est.</div></div>
+            <div><div class="rvv" style="color:var(--elec)">15%</div><div class="rvl">royalty Mód. B</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HUB PLENO -->
+      <div class="ecard">
+        <div class="eph" id="ph-e2">
+          <img id="img-e2" alt="">
+          <div class="ephph" id="pp-e2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <div>Renderização IA — Hub completo</div>
+          </div>
+          <button class="eupbtn" onclick="triggerE('e2')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Carregar imagem IA
+          </button>
+        </div>
+        <div class="ebdy">
+          <span class="etag t-e2">Módulos C–F condicionais</span>
+          <div class="ettl">Hub pleno — 4 carregadores</div>
+          <div class="edsc">Visão completa se todos os módulos condicionais forem aprovados após validação do MVP.</div>
+          <ul class="efts"><li>4 carregadores duplos (8 pts) · Mód. D</li><li>Carport + cobertura solar 70 kWp · Mód. C</li><li>Estacionamento rotativo · Mód. E</li><li>Coworking, lanchonete, lava-rápido · Mód. F</li></ul>
+          <div class="erev">
+            <div><div class="rvv" style="color:var(--teal)">R$ 42k</div><div class="rvl">Gall/mês</div></div>
+            <div><div class="rvv">R$ 201k</div><div class="rvl">hub total</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" class="hidden" id="up-atual" accept="image/*" onchange="loadE(this,'atual')">
+    <input type="file" class="hidden" id="up-e1"    accept="image/*" onchange="loadE(this,'e1')">
+    <input type="file" class="hidden" id="up-e2"    accept="image/*" onchange="loadE(this,'e2')">
+  </div>
+</section>
+
+<!-- ════ FOTOS ════ -->
+<section id="fotos" class="sec-dk">
+  <div class="si">
+    <span class="sec-lbl">Local atual</span>
+    <h2 class="sec-ttl">Fotos — Rua Belmiro Braga, 1078</h2>
+    <p class="sec-sub">Registros fotográficos do espaço. Clique para adicionar fotos reais do local.</p>
+    <div class="fgrid" id="fgrid">
+      <div class="fslot" id="fs-0" onclick="triggerF(0)"><img id="fi-0" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Fachada / entrada</div></div>
+      <div class="fslot" id="fs-1" onclick="triggerF(1)"><img id="fi-1" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Vagas de estacionamento</div></div>
+      <div class="fslot" id="fs-2" onclick="triggerF(2)"><img id="fi-2" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Área interna</div></div>
+      <div class="fslot" id="fs-3" onclick="triggerF(3)"><img id="fi-3" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Vista lateral</div></div>
+      <button class="fadd" onclick="addFS()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Mais fotos</button>
+    </div>
+    <input type="file" class="hidden" id="finp" accept="image/*" onchange="loadF(this)">
+  </div>
+</section>
+
+<!-- ════ CONTRATO ════ -->
+<section id="contrato" class="sec-lt">
+  <div class="si">
+    <span class="sec-lbl">Instrumento contratual</span>
+    <h2 class="sec-ttl">Contrato v5 — estrutura MVP</h2>
+    <p class="sec-sub">Módulo A obrigatório + módulos B–F condicionais. Pré-acordados mas não automáticos. Pendente de revisão jurídica.</p>
+    <div class="clayout">
+      <div class="cview">
+        <div class="cbar">
+          <div class="cbar-l">
+            <div class="cbar-dots">
+              <div class="cbar-dot" style="background:#e84040"></div>
+              <div class="cbar-dot" style="background:#f0a020"></div>
+              <div class="cbar-dot" style="background:#00c896"></div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+            Contrato_Gall_NewEnergy_v5 · Minuta
+          </div>
+          <div class="cacts">
+            <a href="Contrato_Gall_NewEnergy_v5.docx" download class="bs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Baixar .docx</a>
+            <button class="bs pri" onclick="toast('Encaminhe o .docx ao advogado para assinatura digital.')">Assinar</button>
+          </div>
+        </div>
+        <div class="cscroll">
+          <div style="text-align:center;padding:.5rem 0 1.25rem">
+            <div style="font-size:.9rem;font-weight:800;color:var(--pure);text-transform:uppercase;letter-spacing:.05em;line-height:1.5;margin-bottom:.4rem">Contrato de Permissão de Uso,<br>Receitas e Co-Investimento Fotovoltaico</div>
+            <div style="font-size:11.5px;color:rgba(240,240,240,.3);font-family:var(--fm)">v5 · MVP + módulos condicionais · 2025</div>
+          </div>
+
+          <div class="ch">Preâmbulo</div>
+          <p style="margin-bottom:.65rem"><strong style="color:var(--pure)">GALL ADMINISTRAÇÃO LTDA</strong>, CNPJ 21.953.856/0001-51, Rua Belmiro Braga, 1078, Caiçara, BH/MG; e <strong style="color:var(--pure)">NEW ENERGY — ENGENHARIA E ENERGIA LTDA</strong>, Rua Prof. José Vieira de Mendonça, 45, Engenho Nogueira, BH/MG.</p>
+
+          <div class="ch">Cláusula 1ª — Objeto e estrutura MVP</div>
+          <div class="mvpbox"><strong style="color:var(--teal)">MÓDULO A (obrigatório e imediato):</strong> 1 carregador duplo 120 kW — único compromisso de implantação imediata. Todos os demais módulos são condicionais.</div>
+          <p style="margin-bottom:.65rem;font-size:13px">Módulos condicionais — pré-acordados, <em>não automáticos</em>: C (solar 70 kWp), D (expansão carregadores), E (estacionamento), F (serviços extras). Ativação exige 90 dias de MVP + aprovação escrita de ambas as PARTES.</p>
+
+          <div class="ch">Cláusula 3ª — Receitas (Módulo B)</div>
+          <div class="chl"><strong style="color:var(--elec2)">Royalty:</strong> 15% base + 1,5 pp por carregador adicional. Com 4 carregadores: <strong style="color:var(--elec2)">19,5%</strong> automático.</div>
+          <div class="chl"><strong style="color:var(--elec2)">Garantia mínima:</strong> R$ 2.200 → R$ 4.400 → R$ 6.600 → <strong style="color:var(--elec2)">R$ 8.800/mês</strong>. Automática, sem aditivo.</div>
+          <div class="chl"><strong style="color:var(--elec2)">Serviços adicionais:</strong> 8% receita bruta de lanchonete, coworking e lava-rápido. Estacionamento = <strong style="color:var(--teal)">100% Gall</strong>.</div>
+
+          <div class="ch">Cláusula 4ª — Solar 70 kWp (Módulo C — condicional)</div>
+          <p style="margin-bottom:.65rem;font-size:13px">Não automático. Se aprovado: co-investimento 50/50, 35 kWp carport + 35 kWp cobertura. Economia CEMIG dividida igualmente. Em rescisão, Gall adquire parte da New Energy pelo valor depreciado em 24 meses.</p>
+
+          <div class="ch">Cláusula 8ª — Módulos D, E, F + Tabela de Royalties</div>
+          <p style="margin-bottom:.65rem;font-size:13px">Todos condicionais. Módulo E (estacionamento) é decisão exclusiva da Gall, sem anuência da New Energy. Receita total Gall no hub pleno: <strong style="color:var(--pure)">R$ 42.036/mês</strong>.</p>
+
+          <div class="ch">Cláusula 12ª — Rescisão</div>
+          <p style="margin-bottom:.65rem;font-size:13px">Multa sobre a garantia vigente: New Energy sem justa causa = 6×; Gall sem justa causa = 3×. Com 4 carregadores: multa máxima <strong style="color:var(--pure)">R$ 52.800</strong>.</p>
+
+          <div style="margin-top:1.5rem;padding:.85rem 1rem;background:rgba(240,160,32,.07);border:1px solid rgba(240,160,32,.2);border-radius:8px;font-size:12.5px;color:rgba(240,240,240,.52)">⚠️ Minuta v5 — revisar com advogado antes de assinar.</div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="sbox">
+          <div class="sbox-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>Status</div>
+          <div class="sr"><span class="srl">Minuta v5</span><span class="badge bok">Pronta</span></div>
+          <div class="sr"><span class="srl">Revisão jurídica</span><span class="badge bwarn">Pendente</span></div>
+          <div class="sr"><span class="srl">Avaliação Gall</span><span class="badge bwarn" id="st-gall">Aguardando</span></div>
+          <div class="sr"><span class="srl">Avaliação New Energy</span><span class="badge bwarn" id="st-new">Aguardando</span></div>
+          <div class="sr"><span class="srl">Assinatura</span><span class="badge binfo">Após avaliações</span></div>
+        </div>
+        <div class="sbox">
+          <div class="sbox-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Receita Gall</div>
+          <div class="sr"><span class="srl">MVP — piso</span><span style="font-size:12px;font-weight:600;color:var(--teal);font-family:var(--fm)">R$ 9.848/mês</span></div>
+          <div class="sr"><span class="srl">MVP — realista</span><span style="font-size:12px;font-weight:600;color:var(--teal);font-family:var(--fm)">R$ 13.924/mês</span></div>
+          <div class="sr"><span class="srl">Hub completo</span><span style="font-size:12px;font-weight:600;color:var(--elec);font-family:var(--fm)">R$ 42.036/mês</span></div>
+        </div>
+        <div class="sbox">
+          <div class="sbox-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Módulos</div>
+          <div class="sr"><span class="srl">A — MVP carregador</span><span class="badge bok">Obrigatório</span></div>
+          <div class="sr"><span class="srl">B — Receitas</span><span class="badge bok">Ativo no MVP</span></div>
+          <div class="sr"><span class="srl">C — Solar 70 kWp</span><span class="badge binfo">Condicional</span></div>
+          <div class="sr"><span class="srl">D — +Carregadores</span><span class="badge binfo">Condicional</span></div>
+          <div class="sr"><span class="srl">E — Estacionamento</span><span class="badge binfo">Exclusivo Gall</span></div>
+          <div class="sr"><span class="srl">F — Serviços extras</span><span class="badge binfo">Condicional</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ AVALIAÇÕES ════ -->
+<section id="avaliacoes" class="sec-dk">
+  <div class="si">
+    <span class="sec-lbl">Colaboração</span>
+    <h2 class="sec-ttl">Avaliações e observações</h2>
+    <p class="sec-sub">Sócios da Gall e equipe da New Energy: registrem posição, estrelas e comentários sobre a proposta.</p>
+    <div class="avgrid">
+      <div class="avc ga">
+        <div class="avhd">
+          <div class="avico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="avhdt"><h3>Sócios — Gall Administração</h3><p>Avaliação interna dos sócios do grupo</p></div>
+        </div>
+        <div class="avbdy">
+          <div class="fg"><label>Seu nome</label><input type="text" id="gn" placeholder="Nome do sócio"></div>
+          <div class="fg"><label>Avaliação geral</label><div class="stars-row" id="gs"><span class="star" onclick="setSt('g',1)">★</span><span class="star" onclick="setSt('g',2)">★</span><span class="star" onclick="setSt('g',3)">★</span><span class="star" onclick="setSt('g',4)">★</span><span class="star" onclick="setSt('g',5)">★</span></div></div>
+          <div class="fg"><label>Posição</label>
+            <select id="gp"><option value="">Selecione...</option><option value="aprovado">Aprovado — pode avançar</option><option value="ressalvas">Aprovado com ressalvas</option><option value="revisao">Solicita revisão</option><option value="aguardo">Aguardo mais informações</option><option value="nao">Não aprovado</option></select>
+          </div>
+          <div class="fg"><label>Observações e sugestões</label><textarea id="go" placeholder="Pontos a revisar, dúvidas sobre cláusulas, sugestões de valores..."></textarea></div>
+          <button class="avbtn" onclick="submitRev('g')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>Enviar avaliação</button>
+        </div>
+      </div>
+      <div class="avc ne">
+        <div class="avhd">
+          <div class="avico"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="avhdt"><h3>New Energy — Eng. e Energia</h3><p>Avaliação e contrapropostas da equipe</p></div>
+        </div>
+        <div class="avbdy">
+          <div class="fg"><label>Nome / cargo</label><input type="text" id="nn" placeholder="Nome e cargo"></div>
+          <div class="fg"><label>Avaliação geral</label><div class="stars-row" id="ns"><span class="star" onclick="setSt('n',1)">★</span><span class="star" onclick="setSt('n',2)">★</span><span class="star" onclick="setSt('n',3)">★</span><span class="star" onclick="setSt('n',4)">★</span><span class="star" onclick="setSt('n',5)">★</span></div></div>
+          <div class="fg"><label>Posição sobre o contrato</label>
+            <select id="np"><option value="">Selecione...</option><option value="aprovado">Aprovado — pode assinar</option><option value="ressalvas">Aprovado com ressalvas</option><option value="revisao">Solicita revisão</option><option value="contraproposta">Apresentará contraproposta</option><option value="aguardo">Aguardo análise jurídica</option></select>
+          </div>
+          <div class="fg"><label>Observações e contrapropostas</label><textarea id="no" placeholder="Cláusulas a ajustar, contrapropostas de valores, timeline proposto..."></textarea></div>
+          <button class="avbtn" onclick="submitRev('n')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>Enviar avaliação</button>
+        </div>
+      </div>
+    </div>
+    <div class="avres">
+      <div class="avres-t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Observações recebidas <span class="badge binfo" id="rcnt">0</span></div>
+      <div id="rlist"><div class="rempty">Nenhuma avaliação enviada ainda.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ DOCUMENTOS ════ -->
+<section id="documentos" class="sec-lt">
+  <div class="si">
+    <span class="sec-lbl">Repositório</span>
+    <h2 class="sec-ttl">Documentos da parceria</h2>
+    <p class="sec-sub">Todos os documentos em um lugar. Arraste ou clique para adicionar.</p>
+    <div class="ddrop" id="ddrop" onclick="document.getElementById('dinp').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="dropD(event)">
+      <div class="ddico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <div class="ddtt">Arraste arquivos ou clique para selecionar</div>
+      <div class="ddsb">PDF · DOCX · XLSX · imagens</div>
+    </div>
+    <input type="file" class="hidden" id="dinp" multiple accept=".pdf,.docx,.xlsx,.jpg,.jpeg,.png" onchange="addDs(this)">
+    <div class="dlist" id="dlist">
+      <div class="ditem">
+        <div class="dico dt"><svg viewBox="0 0 24 24" fill="none" stroke="var(--elec2)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg></div>
+        <div class="dinf"><div class="dnm">Contrato_Gall_NewEnergy_v5.docx</div><div class="dmt">Gerado automaticamente · Minuta v5 · 2025</div></div>
+        <span class="dcat dc">Contrato</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ BENCHMARKS ════ -->
+<section id="benchmarks" class="sec-dk">
+  <div class="si">
+    <span class="sec-lbl">Estudo de mercado</span>
+    <h2 class="sec-ttl">Casos reais no Brasil</h2>
+    <p class="sec-sub">O modelo já está validado em operação. O Caiçara tem vantagens que nenhum dos casos de referência possui.</p>
+
+    <div class="bmgrid">
+      <div class="bmc">
+        <div class="bmp"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80" alt="Enel X SP Market"><div class="bmloc">São Paulo / SP</div></div>
+        <div class="bmbd">
+          <div class="bmtag" style="background:rgba(20,160,220,.1);color:var(--elec2)">Hub em shopping</div>
+          <div class="bmtt">Enel X — SP Market</div>
+          <div class="bmds">Fev/2024. Primeiro hub da Enel X em SP: 230 m², 20 carregamentos simultâneos, 193 kW. Referência nacional de hub premium em estacionamento.</div>
+          <div class="bmst">
+            <div><div class="bmsv">20 pts</div><div class="bmsl">simultâneos</div></div>
+            <div><div class="bmsv">193 kW</div><div class="bmsl">potência</div></div>
+            <div><div class="bmsv" style="color:var(--teal)">230 m²</div><div class="bmsl">área</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bmc">
+        <div class="bmp"><img src="https://images.unsplash.com/photo-1593941707882-a56bbc8df44b?w=700&q=80" alt="Estapar Eletrobras"><div class="bmloc">Congonhas SP · Cinelândia RJ</div></div>
+        <div class="bmbd">
+          <div class="bmtag" style="background:rgba(0,200,150,.1);color:var(--teal)">Estacionamento + energia</div>
+          <div class="bmtt">Estapar × Eletrobras</div>
+          <div class="bmds">Fev/2025. 24 carregadores em Congonhas com sala VIP e café. Exatamente o modelo Gall × New Energy — a maior rede de estacionamentos do Brasil validando o conceito.</div>
+          <div class="bmst">
+            <div><div class="bmsv">24 carg.</div><div class="bmsl">Congonhas</div></div>
+            <div><div class="bmsv">22 carg.</div><div class="bmsl">Cinelândia</div></div>
+            <div><div class="bmsv" style="color:var(--teal)">VIP</div><div class="bmsl">sala + café</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bmc">
+        <div class="bmp"><img src="https://images.unsplash.com/photo-1620714223084-8fcacc2dbed5?w=700&q=80" alt="Mini hub comercial"><div class="bmloc">Modelo replicável</div></div>
+        <div class="bmbd">
+          <div class="bmtag" style="background:rgba(240,160,32,.1);color:var(--amber)">Mini-hub comercial</div>
+          <div class="bmtt">Mini-hub YellotMob / IPE</div>
+          <div class="bmds">Modelo 2–5 pontos em estacionamento comercial. Proprietário recebe 82% automaticamente via app. DC rápido: R$ 200–300 mil, zero funcionários.</div>
+          <div class="bmst">
+            <div><div class="bmsv">82%</div><div class="bmsl">repasse ao dono</div></div>
+            <div><div class="bmsv">R$200k</div><div class="bmsl">invest. DC</div></div>
+            <div><div class="bmsv" style="color:var(--teal)">auto</div><div class="bmsl">100% app</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bm2col">
+      <div class="bmbox">
+        <div class="bmbox-t" style="color:var(--pure)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--elec)" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.4 9l-5.4 5.4-2.4-2.4L5 17.5"/></svg>Mercado brasileiro · ago/2025</div>
+        <div class="bmrow"><span>Eletropostos públicos/semi</span><span>16.880</span></div>
+        <div class="bmrow"><span>DC rápidos (23% do total)</span><span>3.855</span></div>
+        <div class="bmrow"><span>Crescimento em 6 meses</span><span style="color:var(--teal)">+14%</span></div>
+        <div class="bmrow"><span>Frota elétrica BEV+PHEV</span><span>503.654 un.</span></div>
+        <div class="bmrow"><span>Eletropostos em MG</span><span>~1.000</span></div>
+        <div class="bmrow"><span>Preço médio DC rápido</span><span style="color:var(--amber)">R$ 2,00–3,50/kWh</span></div>
+      </div>
+      <div class="bmbox" style="background:rgba(0,8,18,.55)">
+        <div class="bmbox-t" style="color:var(--pure)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Por que agora</div>
+        <div class="bmbul"><div class="bmbd2" style="background:var(--teal)"></div><p>Frota elétrica cresceu 10× em 3 anos (50k→503k). DC rápidos ainda são só 23% — escassez exatamente no segmento do projeto.</p></div>
+        <div class="bmbul"><div class="bmbd2" style="background:var(--teal)"></div><p>Caiçara não tem nenhum eletroposto DC rápido registrado nas redes Zletric, Tupinambá ou NeoCharge.</p></div>
+        <div class="bmbul"><div class="bmbd2" style="background:var(--elec)"></div><p>Estapar × Eletrobras provaram o modelo estacionamento + eletroposto + VIP em fev/2025.</p></div>
+        <div class="bmbul"><div class="bmbd2" style="background:var(--elec)"></div><p>ANEEL 819/2018 permite cobrança por kWh sem ser concessionária — risco regulatório baixo.</p></div>
+        <div class="bmbul"><div class="bmbd2" style="background:var(--amber)"></div><p>Solar 70 kWp co-investido: nenhum caso de referência tem esse diferencial competitivo.</p></div>
+      </div>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Projeto</th><th>Modelo</th><th>Pts DC</th><th>Serviços</th><th>Solar</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Enel X — SP Market</td><td>Shopping</td><td>20</td><td>Não</td><td>Não</td><td><span class="badge bok">Operando</span></td></tr>
+          <tr><td>Estapar × Eletrobras — Congonhas</td><td>Estacionamento</td><td>24</td><td>Sala VIP + café</td><td>Não</td><td><span class="badge bok">Operando</span></td></tr>
+          <tr><td>Mini-hub YellotMob</td><td>Comércio</td><td>2–5</td><td>Loja existente</td><td>Opcional</td><td><span class="badge bok">Replicável</span></td></tr>
+          <tr class="thl"><td><strong>Hub Caicara Gall × New Energy</strong></td><td>Estac. + Hub</td><td>2→8</td><td style="color:var(--teal)">Cowork+Lanch+Lava</td><td style="color:var(--teal)">70 kWp ✓</td><td><span class="badge binfo">MVP negoc.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:11.5px;color:rgba(240,240,240,.28);line-height:1.7">Fontes: Enel X (fev/2024) · Estapar/Eletrobras (fev/2025) · YellotMob · ABVE/Tupi Mobilidade (ago/2025) · dados próprios New Energy.</div>
+  </div>
+</section>
+
+<!-- ════ FINANCEIRO ════ -->
+<section id="financeiro" class="sec-lt">
+  <div class="si">
+    <span class="sec-lbl">Projeção financeira</span>
+    <h2 class="sec-ttl">Receitas da Gall — todas as fontes</h2>
+    <p class="sec-sub">Estimativas com premissas New Energy: R$ 3,10/kWh · 10% ocupação · módulos condicionais ativados.</p>
+    <div class="fkpis">
+      <div class="fk"><div class="fkl">Garantia mín. MVP</div><div class="fkv a">R$ 2.200</div><div class="fks">por mês · 1 carregador</div></div>
+      <div class="fk"><div class="fkl">Gall — Etapa 1</div><div class="fkv">R$ 13.924</div><div class="fks">eletrop. + estac. + solar</div></div>
+      <div class="fk"><div class="fkl">Gall hub completo</div><div class="fkv t">R$ 42.036</div><div class="fks">4 carg. + todos módulos</div></div>
+      <div class="fk"><div class="fkl">Royalty máximo</div><div class="fkv e">19,5%</div><div class="fks">eletropostos · 4 carregadores</div></div>
+    </div>
+    <div class="tw">
+      <table>
+        <thead><tr><th>Fonte de receita</th><th>Receita hub/mês</th><th>% Gall</th><th>Parte Gall</th><th>Módulo</th></tr></thead>
+        <tbody>
+          <tr><td>Eletropostos — 1 carregador (MVP)</td><td>R$ 27.156</td><td>15%</td><td class="tam">R$ 4.073</td><td><span class="badge binfo">A+B</span></td></tr>
+          <tr><td>Eletropostos — 4 carregadores</td><td>R$ 108.624</td><td>19,5%</td><td class="tam">R$ 21.182</td><td><span class="badge binfo">D</span></td></tr>
+          <tr><td>Solar 70 kWp — economia interna</td><td>R$ 6.205</td><td>50%</td><td class="thi">R$ 2.203</td><td><span class="badge binfo">C</span></td></tr>
+          <tr><td>Estacionamento rotativo (9 vagas)</td><td>R$ 10.098</td><td>100%</td><td class="thi">R$ 6.868</td><td><span class="badge bok">E · Gall</span></td></tr>
+          <tr><td>Mensalistas fixos (4 vagas)</td><td>R$ 880</td><td>100%</td><td class="thi">R$ 780</td><td><span class="badge bok">E · Gall</span></td></tr>
+          <tr><td>Lanchonete / açaí</td><td>R$ 32.400</td><td>8%</td><td class="thi">R$ 2.592</td><td><span class="badge binfo">F</span></td></tr>
+          <tr><td>Mini coworking (8 mesas)</td><td>R$ 24.640</td><td>8%</td><td class="thi">R$ 1.971</td><td><span class="badge binfo">F</span></td></tr>
+          <tr><td>Lava-rápido ecológico</td><td>R$ 18.000</td><td>8%</td><td class="thi">R$ 1.440</td><td><span class="badge binfo">F</span></td></tr>
+          <tr><td>TOTAL — hub completo</td><td>R$ 227.003</td><td>—</td><td class="thi">R$ 41.109</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ftr-logo"><img src="logo.jpg" alt="Hub Caicara Gall"></div>
+  <strong>Hub Caicara Gall</strong> · Gall Administração Ltda × New Energy Engenharia e Energia<br>
+  <span style="margin-top:5px;display:block">Rua Belmiro Braga, 1078 — Caiçara, Belo Horizonte/MG · Documento confidencial · 2025</span>
+</footer>
+
+<div class="toast" id="toast"><div class="tdot"></div><span id="tmsg"></span></div>
+
+<script>
+/* TOAST */
+function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
+
+/* NAV ACTIVE */
+const _secs=document.querySelectorAll('section[id]');
+const _nls=document.querySelectorAll('.nl a');
+window.addEventListener('scroll',()=>{let c='';_secs.forEach(s=>{if(window.scrollY>=s.offsetTop-72)c=s.id;});_nls.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+c));},{passive:true});
+
+/* ETAPA UPLOADS */
+function triggerE(id){document.getElementById('up-'+id).click();}
+function loadE(inp,id){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById('img-'+id).src=e.target.result;
+    document.getElementById('img-'+id).classList.add('vis');
+    const ph=document.getElementById('pp-'+id);if(ph)ph.style.display='none';
+    toast('Foto carregada!');
+  };r.readAsDataURL(f);
+}
+
+/* GALERIA */
+let _cf=null, _fc=4;
+function triggerF(i){_cf=i;document.getElementById('finp').click();}
+document.getElementById('finp').addEventListener('change',function(){
+  const f=this.files[0];if(!f||_cf===null)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const sl=document.getElementById('fs-'+_cf);
+    document.getElementById('fi-'+_cf).src=e.target.result;
+    sl.classList.add('fp');
+    sl.querySelectorAll('.fph,.fph-t').forEach(el=>el.style.display='none');
+    toast('Foto adicionada!');
+  };r.readAsDataURL(f);this.value='';
+});
+function addFS(){
+  const g=document.getElementById('fgrid');
+  const btn=g.querySelector('.fadd');
+  const i=_fc++;
+  const d=document.createElement('div');d.className='fslot';d.id='fs-'+i;d.onclick=()=>triggerF(i);
+  d.innerHTML=`<img id="fi-${i}" alt=""><div class="fov"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="14" height="14"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Trocar</div><div class="fph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div><div class="fph-t">Foto ${i+1}</div>`;
+  g.insertBefore(d,btn);
+}
+
+/* ESTRELAS */
+const _rats={g:0,n:0};
+function setSt(p,n){
+  _rats[p]=n;
+  document.getElementById(p+'s').querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));
+}
+
+/* AVALIAÇÕES */
+const _revs=[];
+const _posL={aprovado:'Aprovado',ressalvas:'Aprovado c/ ressalvas',revisao:'Solicita revisão',contraproposta:'Contraproposta',aguardo:'Aguardando',nao:'Não aprovado'};
+
+function submitRev(p){
+  const nome=document.getElementById(p+'n').value.trim();
+  const pos=document.getElementById(p+'p').value;
+  const obs=document.getElementById(p+'o').value.trim();
+  if(!nome){toast('Informe seu nome.');return;}
+  if(!pos){toast('Selecione uma posição.');return;}
+  _revs.push({p,nome,pos,obs,r:_rats[p],dt:new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})});
+  renderRevs();
+  const b=document.getElementById('st-'+(p==='g'?'gall':'new'));
+  if(b){b.textContent=_posL[pos]||pos;b.className='badge '+(pos==='aprovado'?'bok':pos==='nao'?'bwarn':'binfo');}
+  document.getElementById(p+'n').value='';document.getElementById(p+'p').value='';document.getElementById(p+'o').value='';
+  _rats[p]=0;document.getElementById(p+'s').querySelectorAll('.star').forEach(s=>s.classList.remove('on'));
+  toast('Avaliação registrada!');
+  try{localStorage.setItem('hcg',JSON.stringify(_revs));}catch(e){}
+}
+function renderRevs(){
+  document.getElementById('rcnt').textContent=_revs.length;
+  if(!_revs.length){document.getElementById('rlist').innerHTML='<div class="rempty">Nenhuma avaliação enviada ainda.</div>';return;}
+  document.getElementById('rlist').innerHTML='';
+  _revs.forEach(rv=>{
+    const who=rv.p==='g'?'Gall Administração':'New Energy';
+    const cls=rv.p==='g'?'rg':'rn';
+    const stars=rv.r?'★'.repeat(rv.r)+'☆'.repeat(5-rv.r):'';
+    const d=document.createElement('div');d.className='ritem '+cls;
+    d.innerHTML=`<div class="rmeta"><span class="rwho">${who}</span><span class="rdt">${rv.dt}</span></div>${stars?`<div class="rstars">${stars}</div>`:''}<div class="rpos">${_posL[rv.pos]||rv.pos}</div>${rv.obs?`<div class="rtxt">${rv.obs}</div>`:''}<div class="rnm">${rv.nome}</div>`;
+    document.getElementById('rlist').appendChild(d);
+  });
+}
+try{const s=localStorage.getItem('hcg');if(s){JSON.parse(s).forEach(r=>_revs.push(r));renderRevs();}}catch(e){}
+
+/* DOCUMENTOS */
+const _extM={docx:'dt',pdf:'dp',jpg:'di',jpeg:'di',png:'di',xlsx:'dt'};
+const _catM={dt:{l:'Contrato',c:'dc'},dp:{l:'Jurídico',c:'dj'},di:{l:'Técnico',c:'dt2'},xlsx:{l:'Financeiro',c:'df'}};
+const _svgM={dt:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--elec2)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`,dp:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>`,di:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`};
+
+function addDItem(file){
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  const t=_extM[ext]||'dp';
+  const cat=_catM[t]||_catM.dp;
+  const sz=(file.size/1024).toFixed(0)+' KB';
+  const d=document.createElement('div');d.className='ditem';
+  d.innerHTML=`<div class="dico ${t}">${_svgM[t]||_svgM.dp}</div><div class="dinf"><div class="dnm">${file.name}</div><div class="dmt">Carregado em ${new Date().toLocaleDateString('pt-BR')} · ${sz}</div></div><span class="dcat ${cat.c}">${cat.l}</span><button class="ddel" onclick="this.closest('.ditem').remove();toast('Documento removido.')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>`;
+  document.getElementById('dlist').appendChild(d);
+}
+function addDs(inp){Array.from(inp.files).forEach(addDItem);toast(inp.files.length+' documento(s) adicionado(s).');inp.value='';}
+function dropD(e){e.preventDefault();document.getElementById('ddrop').classList.remove('drag');Array.from(e.dataTransfer.files).forEach(addDItem);}
+</script>
+</body>
+</html>
