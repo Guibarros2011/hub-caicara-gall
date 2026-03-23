@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub Caiçara Gall</title>
+<title>Hub Caicara Gall</title>
 <link rel="icon" href="logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 /* ═══════════════════════════════════════
    DESIGN TOKENS — extraídos da logo
@@ -828,13 +830,59 @@ footer strong { color:rgba(240,240,240,.48); }
 /* TOAST */
 function toast(m){const t=document.getElementById('toast');document.getElementById('tmsg').textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
  
+/* ══════════════════════════════════════
+   FIREBASE — cole sua config abaixo
+══════════════════════════════════════ */
+const FB_CONFIG = {
+  apiKey:            "AIzaSyAJ15iSa_oyhrTeTXtmkHbohDS3nQ6l7yc",
+  authDomain:        "hub-caicara-gall.firebaseapp.com",
+  databaseURL:       "https://hub-caicara-gall-default-rtdb.firebaseio.com",
+  projectId:         "hub-caicara-gall",
+  storageBucket:     "hub-caicara-gall.firebasestorage.app",
+  messagingSenderId: "247343468406",
+  appId:             "1:247343468406:web:c1aa870e7fc71104023457"
+};
+ 
+// aguarda SDK carregar
+let _db=null;
+function _initFB(){
+  if(_db)return Promise.resolve(_db);
+  return new Promise(res=>{
+    const check=setInterval(()=>{
+      if(window.firebase&&window.firebase.apps){
+        clearInterval(check);
+        if(!firebase.apps.length)firebase.initializeApp(FB_CONFIG);
+        _db=firebase.database();
+        res(_db);
+      }
+    },80);
+  });
+}
+async function fbSet(path,val){
+  const db=await _initFB();
+  await db.ref(path).set(val);
+}
+async function fbGet(path){
+  const db=await _initFB();
+  const snap=await db.ref(path).once('value');
+  return snap.val();
+}
+async function fbPush(path,val){
+  const db=await _initFB();
+  await db.ref(path).push(val);
+}
+async function fbOnValue(path,cb){
+  const db=await _initFB();
+  db.ref(path).on('value',snap=>cb(snap.val()));
+}
+ 
 /* NAV ACTIVE */
 const _secs=document.querySelectorAll('section[id]');
 const _nls=document.querySelectorAll('.nl a');
 window.addEventListener('scroll',()=>{let c='';_secs.forEach(s=>{if(window.scrollY>=s.offsetTop-72)c=s.id;});_nls.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+c));},{passive:true});
  
-/* COMPRESSÃO AUTOMÁTICA DE IMAGENS */
-function compressImg(dataUrl, maxW=1200, quality=0.8){
+/* COMPRESSÃO AUTOMÁTICA */
+function compressImg(dataUrl,maxW=1200,quality=0.8){
   return new Promise(resolve=>{
     const img=new Image();
     img.onload=()=>{
@@ -849,16 +897,16 @@ function compressImg(dataUrl, maxW=1200, quality=0.8){
   });
 }
  
-/* ETAPA UPLOADS — persistente + compressão */
+/* ETAPAS — Firebase */
 function triggerE(id){document.getElementById('up-'+id).click();}
 function loadE(inp,id){
   const f=inp.files[0];if(!f)return;
   const r=new FileReader();
   r.onload=async e=>{
-    const compressed=await compressImg(e.target.result);
-    _setEtapa(id,compressed);
+    const comp=await compressImg(e.target.result);
+    _setEtapa(id,comp);
     toast('Foto carregada!');
-    try{await window.storage.set('etapa:'+id,compressed,true);}catch(err){}
+    try{await fbSet('etapas/'+id,comp);}catch(err){console.warn(err);}
   };r.readAsDataURL(f);
 }
 function _setEtapa(id,src){
@@ -868,31 +916,27 @@ function _setEtapa(id,src){
   if(ph)ph.style.display='none';
 }
 async function loadEtapas(){
-  for(const id of ['atual','e1','e2']){
-    try{
-      const r=await window.storage.get('etapa:'+id,true);
-      if(r&&r.value)_setEtapa(id,r.value);
-    }catch(e){}
-  }
+  try{
+    const data=await fbGet('etapas');
+    if(data){Object.entries(data).forEach(([id,src])=>_setEtapa(id,src));}
+  }catch(e){}
 }
  
-/* GALERIA — persistente + compressão */
+/* GALERIA — Firebase */
 let _cf=null,_fc=4;
 function triggerF(i){_cf=i;document.getElementById('finp').click();}
 document.getElementById('finp').addEventListener('change',function(){
   const f=this.files[0];if(!f||_cf===null)return;
   const r=new FileReader();
   r.onload=async e=>{
-    const compressed=await compressImg(e.target.result);
-    _setFoto(_cf,compressed);
+    const comp=await compressImg(e.target.result);
+    _setFoto(_cf,comp);
     toast('Foto adicionada!');
-    try{await window.storage.set('foto:'+_cf,compressed,true);}catch(err){}
-    try{await window.storage.set('foto:count',String(_fc),true);}catch(err){}
+    try{await fbSet('fotos/'+_cf,comp);await fbSet('fotos/_count',_fc);}catch(err){console.warn(err);}
   };r.readAsDataURL(f);this.value='';
 });
 function _setFoto(i,src){
-  const sl=document.getElementById('fs-'+i);
-  if(!sl)return;
+  const sl=document.getElementById('fs-'+i);if(!sl)return;
   document.getElementById('fi-'+i).src=src;
   sl.classList.add('fp');
   sl.querySelectorAll('.fph,.fph-t').forEach(el=>el.style.display='none');
@@ -907,15 +951,15 @@ function addFS(){
 }
 async function loadFotos(){
   try{
-    const cnt=await window.storage.get('foto:count',true);
-    if(cnt&&cnt.value){const n=parseInt(cnt.value);while(_fc<n)addFS();}
+    const data=await fbGet('fotos');
+    if(!data)return;
+    const cnt=data._count||4;
+    while(_fc<cnt)addFS();
+    Object.entries(data).forEach(([k,src])=>{
+      if(k==='_count')return;
+      _setFoto(parseInt(k),src);
+    });
   }catch(e){}
-  for(let i=0;i<_fc;i++){
-    try{
-      const r=await window.storage.get('foto:'+i,true);
-      if(r&&r.value)_setFoto(i,r.value);
-    }catch(e){}
-  }
 }
  
 loadEtapas();
@@ -928,27 +972,9 @@ function setSt(p,n){
   document.getElementById(p+'s').querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));
 }
  
-/* AVALIAÇÕES — storage persistente */
+/* AVALIAÇÕES — Firebase realtime (todos veem em tempo real) */
 const _posL={aprovado:'Aprovado',ressalvas:'Aprovado c/ ressalvas',revisao:'Solicita revisão',contraproposta:'Contraproposta',aguardo:'Aguardando',nao:'Não aprovado'};
 let _revs=[];
- 
-async function loadRevs(){
-  try{
-    const r=await window.storage.get('hcg_reviews',true);
-    if(r&&r.value){_revs=JSON.parse(r.value);renderRevs();}
-  }catch(e){
-    // fallback to localStorage
-    try{const s=localStorage.getItem('hcg');if(s){_revs=JSON.parse(s);renderRevs();}}catch(e2){}
-  }
-}
- 
-async function saveRevs(){
-  try{
-    await window.storage.set('hcg_reviews',JSON.stringify(_revs),true);
-  }catch(e){
-    try{localStorage.setItem('hcg',JSON.stringify(_revs));}catch(e2){}
-  }
-}
  
 function submitRev(p){
   const nome=document.getElementById(p+'n').value.trim();
@@ -956,25 +982,22 @@ function submitRev(p){
   const obs=document.getElementById(p+'o').value.trim();
   if(!nome){toast('Informe seu nome.');return;}
   if(!pos){toast('Selecione uma posição.');return;}
-  _revs.push({p,nome,pos,obs,r:_rats[p],dt:new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})});
-  renderRevs();
-  saveRevs();
+  const rev={p,nome,pos,obs,r:_rats[p],dt:new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})};
+  fbPush('avaliacoes',rev).then(()=>toast('Avaliação registrada! Obrigado.')).catch(()=>toast('Erro ao salvar — tente novamente.'));
   const b=document.getElementById('st-'+(p==='g'?'gall':'new'));
   if(b){b.textContent=_posL[pos]||pos;b.className='badge '+(pos==='aprovado'?'bok':pos==='nao'?'bwarn':'binfo');}
   document.getElementById(p+'n').value='';document.getElementById(p+'p').value='';document.getElementById(p+'o').value='';
   _rats[p]=0;document.getElementById(p+'s').querySelectorAll('.star').forEach(s=>s.classList.remove('on'));
-  toast('Avaliação registrada! Obrigado.');
 }
  
 function renderRevs(){
   document.getElementById('rcnt').textContent=_revs.length;
-  if(!_revs.length){document.getElementById('rlist').innerHTML='<div class="rempty">Nenhuma avaliação enviada ainda. As observações de todos os participantes aparecerão aqui.</div>';return;}
+  if(!_revs.length){document.getElementById('rlist').innerHTML='<div class="rempty">Nenhuma avaliação enviada ainda. As observações de todos os participantes aparecerão aqui em tempo real.</div>';return;}
   document.getElementById('rlist').innerHTML='';
   _revs.forEach(rv=>{
     const who=rv.p==='g'?'Gall Administração':'New Energy';
-    const cls=rv.p==='g'?'rg':'rn';
     const stars=rv.r?'★'.repeat(rv.r)+'☆'.repeat(5-rv.r):'';
-    const d=document.createElement('div');d.className='ritem '+cls;
+    const d=document.createElement('div');d.className='ritem '+(rv.p==='g'?'rg':'rn');
     d.innerHTML=`<div class="rmeta"><span class="rwho">${who}</span><span class="rdt">${rv.dt}</span></div>${stars?`<div class="rstars">${stars}</div>`:''}<div class="rpos">${_posL[rv.pos||'']||rv.pos||''}</div>${rv.obs?`<div class="rtxt">${rv.obs}</div>`:''}<div class="rnm">${rv.nome}</div>`;
     document.getElementById('rlist').appendChild(d);
   });
@@ -994,17 +1017,16 @@ function copyLog(){
     linhas.push('');
   });
   const txt=linhas.join('\n');
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(txt).then(()=>toast('Log copiado! Cole diretamente no Claude.'));
-  } else {
-    const ta=document.createElement('textarea');
-    ta.value=txt;document.body.appendChild(ta);ta.select();
-    document.execCommand('copy');document.body.removeChild(ta);
-    toast('Log copiado!');
-  }
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(()=>toast('Log copiado! Cole diretamente no Claude.'));}
+  else{const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Log copiado!');}
 }
  
-loadRevs();
+// escuta avaliações em tempo real
+fbOnValue('avaliacoes',data=>{
+  _revs=data?Object.values(data):[];
+  renderRevs();
+}).catch(()=>{});
+ 
  
 /* DOCUMENTOS */
 const _extM={docx:'dt',pdf:'dp',jpg:'di',jpeg:'di',png:'di',xlsx:'dt'};
